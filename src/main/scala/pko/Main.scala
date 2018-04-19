@@ -2,6 +2,13 @@ package pko
 
 import scala.math.BigDecimal
 
+sealed case class MarginOffer(margin: BigDecimal, preconditions: ((CreditState) => Boolean)*) {
+  def isValidFor(state : CreditState) = {
+    preconditions.foldLeft(true)(
+      (validity, precondition) => validity && precondition(state))
+  }
+}
+
 sealed case class CreditState(ongoingMonth: Int, amount: BigDecimal, participationPercentage: BigDecimal = 0) {
   def withParticipationAmount(participationAmount: BigDecimal): CreditState = {
     copy(participationPercentage = participationAmount / amount * 100)
