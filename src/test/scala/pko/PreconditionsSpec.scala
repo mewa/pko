@@ -50,4 +50,29 @@ class PreconditionsSpec extends FlatSpec with Matchers {
         (!Preconditions.participationBelow(participation)(state))
     }
   }
+
+  "Preconditions.amountBelow" should "be true for lower values, end-value exclusive" in {
+    val state = CreditState(ongoingMonth = 12, amount = 1000)
+
+    Preconditions.amountBelow(2500)(state) should be (true)
+    Preconditions.amountBelow(1000)(state) should be (false)
+  }
+
+  it should "be false for higher values" in {
+    val state = CreditState(ongoingMonth = 12, amount = 1000)
+
+    Preconditions.amountBelow(999)(state) should be (false)
+    Preconditions.amountBelow(100)(state) should be (false)
+  }
+
+  "Preconditions.amountAbove" should "complement .amountBelow" in {
+    val values = List(100, 999, 1000, 2500)
+
+    for (amount <- values) {
+      val state = CreditState(ongoingMonth = 12, amount = 1000)
+
+      Preconditions.amountAbove(amount)(state) should be
+        (!Preconditions.participationBelow(amount)(state))
+    }
+  }
 }
