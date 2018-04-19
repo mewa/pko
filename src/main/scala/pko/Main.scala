@@ -2,10 +2,9 @@ package pko
 
 import scala.math.BigDecimal
 
-sealed case class CreditState(ongoingMonth: Int, amount: BigDecimal, participation: BigDecimal = 0) {
-  def withParticipationPercentage(percentage: BigDecimal) = {
-    val percentageDecimal = percentage / 100
-    copy(participation = amount * percentageDecimal)
+sealed case class CreditState(ongoingMonth: Int, amount: BigDecimal, participationPercentage: BigDecimal = 0) {
+  def withParticipationAmount(participationAmount: BigDecimal): CreditState = {
+    copy(participationPercentage = participationAmount / amount * 100)
   }
 }
 
