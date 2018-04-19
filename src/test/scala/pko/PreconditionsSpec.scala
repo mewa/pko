@@ -41,4 +41,13 @@ class PreconditionsSpec extends FlatSpec with Matchers {
 
     Preconditions.participationBelow(25)(state) should be (false)
   }
+
+  "Preconditions.participationAbove" should "complement .participationBelow" in {
+    for (participation <- Range(10, 40, 5)) {
+      val state = CreditState(ongoingMonth = 12, amount = 10000, participationPercentage = 25)
+
+      Preconditions.participationAbove(participation)(state) should be
+        (!Preconditions.participationBelow(participation)(state))
+    }
+  }
 }
