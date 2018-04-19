@@ -3,6 +3,14 @@ package pko
 import org.scalatest._
 
 class MarginOfferSpec extends FlatSpec with Matchers {
+  "MarginOffer without preconditions" should "be valid" in {
+    val state = CreditState(ongoingMonth = 1, amount = 10000, participationPercentage = 50)
+
+    val offer = MarginOffer(123)
+
+    offer.isValidFor(state) should be (true)
+  }
+
   "MarginOffer" should "be valid" in {
     val state = CreditState(ongoingMonth = 1, amount = 10000, participationPercentage = 50)
 
