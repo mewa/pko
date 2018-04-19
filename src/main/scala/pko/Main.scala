@@ -17,4 +17,10 @@ object Preconditions {
 
   def participationAbove(participationPercentageExclusive : BigDecimal) =
     (c: CreditState) => !participationBelow(participationPercentageExclusive)(c)
+
+  def amountBelow(amountExclusive : BigDecimal) =
+    (c: CreditState) => c.amount < amountExclusive
+
+  def amountAbove(amountInclusive : BigDecimal) =
+    (c: CreditState) => !amountBelow(amountInclusive)(c)
 }
