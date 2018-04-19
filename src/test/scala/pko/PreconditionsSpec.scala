@@ -28,4 +28,17 @@ class PreconditionsSpec extends FlatSpec with Matchers {
 
     Preconditions.afterMonth(12)(state) should be (true)
   }
+
+  "Preconditions.participationBelow" should "be true for lower values, end-value inclusive" in {
+    val state = CreditState(ongoingMonth = 12, amount = 10000, participationPercentage = 0)
+
+    Preconditions.participationBelow(25)(state) should be (true)
+    Preconditions.participationBelow(25)(state.copy(participationPercentage = 25)) should be (true)
+  }
+
+  it should "be false for higher values" in {
+    val state = CreditState(ongoingMonth = 12, amount = 10000, participationPercentage = 26)
+
+    Preconditions.participationBelow(25)(state) should be (false)
+  }
 }
