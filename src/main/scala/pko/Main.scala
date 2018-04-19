@@ -11,4 +11,8 @@ sealed case class CreditState(ongoingMonth: Int, amount: BigDecimal, participati
 object Preconditions {
   def untilMonth(monthInclusive : Int) = (c : CreditState) => c.ongoingMonth <= monthInclusive
   def afterMonth(monthExclusive : Int) = (c : CreditState) => c.ongoingMonth > monthExclusive
+
+  def participationBelow(participationPercentageInclusive : BigDecimal) =
+    (c: CreditState) => c.participationPercentage <= participationPercentageInclusive
+
 }
